@@ -1,7 +1,7 @@
 <form action=" {{ $action }}" method="post">
-    @isset($name)
+    @if($update)
     @method('PUT')
-    @endisset
+    @endif
     @csrf
     <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
@@ -16,7 +16,7 @@
             >
     </div>
     <button type="submit" class="btn btn-primary">
-        @if(@isset($name))
+        @if($update)
         Alterar
         @else
         Adicionar
