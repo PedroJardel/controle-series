@@ -4,16 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $series = Serie::query()
         ->orderBy('name')
         ->get();
-        return view('series.index',)->with('series', $series);
+
+        $messageSuccess = session('message.success');
+
+        return view('series.index',)->with('series', $series)->with('messageSuccess', $messageSuccess);
+    }
+
+    public function findOne(int $id): Serie|null
+    {
+        $serie = Serie::first($id);
+        return $serie;
     }
     public function create()
     {
@@ -22,14 +30,17 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
-        Serie::create($request->all());
+        $serie = Serie::create($request->all());
+        $request->session()->flash('message.success',"Série {$serie->name} adicionada com sucesso!");
 
         return to_route('series.index');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Serie $series, Request $request)
     {
-        Serie::destroy($request->series);
+        $series->delete();
+        $request->session()->flash('message.success',"Série {$series->name} removida com sucesso!");
+
         return to_route('series.index');
     }
 }
