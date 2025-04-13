@@ -18,9 +18,9 @@ class SeriesController extends Controller
         return view('series.index',)->with('series', $series)->with('messageSuccess', $messageSuccess);
     }
 
-    public function findOne(int $id): Serie|null
+    public function show(Serie $serie)
     {
-        $serie = Serie::first($id);
+        $serie->first();
         return $serie;
     }
     public function create()
@@ -31,16 +31,25 @@ class SeriesController extends Controller
     public function store(Request $request)
     {
         $serie = Serie::create($request->all());
-        $request->session()->flash('message.success',"Série {$serie->name} adicionada com sucesso!");
 
-        return to_route('series.index');
+        return to_route('series.index')->with('message.success',"Série '{$serie->name}' adicionada com sucesso!");
     }
 
-    public function destroy(Serie $series, Request $request)
+    public function edit(Serie $series)
+    {
+        return view('series.edit')->with('series', $series);
+    }
+    public function update(Serie $series, Request $request)
+    {
+        $series->update();
+
+        return to_route('series.index')->with('message.success',"Série '{$series->name}' alterada com sucesso!");
+    }
+
+    public function destroy(Serie $series)
     {
         $series->delete();
-        $request->session()->flash('message.success',"Série {$series->name} removida com sucesso!");
 
-        return to_route('series.index');
+        return to_route('series.index')->with('message.success',"Série '{$series->name}' removida com sucesso!");
     }
 }
