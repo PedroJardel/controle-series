@@ -38,8 +38,8 @@ class SeriesController extends Controller
                 'number' => $i,
             ];
         }
-
         Season::insert($seasons);
+
         $episodes = [];
         foreach ($series->seasons as $season) {
             for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
@@ -48,9 +48,8 @@ class SeriesController extends Controller
                     'number' => $j,
                 ];
             }
-
-            Episode::insert($episodes);
         }
+        Episode::insert($episodes);
 
         return to_route('series.index')->with('message.success', "Série '{$series->name}' adicionada com sucesso!");
     }
