@@ -8,6 +8,7 @@ class Episode extends Model
 {
     protected $fillable = ['number'];
     public $timestamps = false;
+    protected $casts = ['watched' => 'boolean'];
 
     public function seasons()
     {
