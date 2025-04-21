@@ -15,8 +15,9 @@ class LoginController extends Controller
 
     public function store(LoginFormRequest $request)
     {
-        if(!Auth::attempt($request->all())) {
+        if(!Auth::attempt($request->only('email', 'password'))) {
             return redirect()->back()->withErrors(__('auth.failed'));
         }
+        return to_route('series.index');
     }
 }

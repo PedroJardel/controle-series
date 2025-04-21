@@ -4,6 +4,7 @@ use App\Http\Controllers\EpisodesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SeasonsController;
 use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\UsersController;
 use App\Http\Middleware\Authenticator;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,5 @@ Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('signin');
+
+Route::resource('/users', UsersController::class)->only('create', 'store');

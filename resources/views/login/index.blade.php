@@ -10,7 +10,9 @@
             <label for="password" class="form-label">Senha</label>
             <input type="password" name="password" id="password" class="form-control">
         </div>
-
-        <button class="btn btn-primary mt-3">Entrar</button>
+        <div class="d-flex w-100 gap-4">
+            <button class="btn btn-primary mt-3">Entrar</button>
+            <a href="{{ route('users.create') }}" class="btn btn-dark mt-3">Cadastrar</a>
+        </div>
     </form>
 </x-layout>
