@@ -9,6 +9,21 @@
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid px-5">
+    <a class="navbar-brand" href="{{ route('series.index') }}">Home</a>
+
+    @auth
+    <a class="navbar-brand" href="{{ route('logout') }}">Sair</a>
+    @endauth
+
+    @guest
+    @if(!Request::routeIs('login'))
+    <a class="navbar-brand" href="{{ route('login') }}">Entrar</a>
+    @endif
+    @endguest
+    </div>
+</nav>
     <div class="container">
         <h1>{{ $title }}</h1>
         @isset($messageSuccess)
