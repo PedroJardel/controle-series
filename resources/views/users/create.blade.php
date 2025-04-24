@@ -24,7 +24,7 @@
         <div class="mb-3">
             <label for="password" class="form-label">Senha</label>
             <input
-                type="text"
+                type="password"
                 id="password"
                 name="password"
                 class="form-control"
