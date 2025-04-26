@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Series extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'thumbnail_path'];
 
     public function seasons()
     {

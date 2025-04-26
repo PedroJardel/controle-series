@@ -38,18 +38,17 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
+        $thumbnailPath = $request->file('thumbnail')->store('series_thumbnail', 'public');
+        $request->thumbnailPath = $thumbnailPath;
         $serie = $this->seriesRepository->add($request);
-        $userList = User::all();
-        foreach($userList as $index => $user) {
-            $email = new SeriesCreated(
-                $serie->name,
-                $serie->id,
-                $request->seasonsQty,
-                $request->episodesPerSeason,
-            );
-            $when = now()->addSeconds($index * 3);
-            Mail::to($user)->later($when, $email);
-        }
+
+        \App\Events\SeriesCreated::dispatch(
+            $serie->name,
+            $serie->id,
+            $request->seasonsQty,
+            $request->episodesPerSeason,
+        );
+       
         return to_route('series.index')->with('message.success', "Série '{$serie->name}' adicionada com sucesso!");
     }
 
