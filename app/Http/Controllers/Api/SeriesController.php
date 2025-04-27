@@ -7,9 +7,7 @@ use App\Http\Repositories\SeriesRepository;
 use App\Http\Requests\SeriesFormRequest;
 use App\Jobs\RemoveSeriesThumbnailPath;
 use App\Models\Series;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\JsonResponse;
 
 class SeriesController extends Controller
 {
@@ -39,6 +37,7 @@ class SeriesController extends Controller
 
     public function update(int $seriesId, SeriesFormRequest $request)
     {
+        /** @var \Request $request */
        return Series::whereId($seriesId)->update($request->all());
     }
 
