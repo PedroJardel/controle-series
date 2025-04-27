@@ -7,6 +7,7 @@ use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Middleware\Authenticator;
 use App\Mail\SeriesCreated;
+use App\Models\Series;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,12 +27,3 @@ Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('signin');
 Route::resource('/users', UsersController::class)->only('create', 'store');
-
-Route::get('/email', function() {
-    return new SeriesCreated(
-        'Série de Teste',
-        4,
-        3,
-        10
-    );
-});

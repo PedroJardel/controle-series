@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\SeriesRepository;
 use App\Http\Requests\SeriesFormRequest;
 use App\Jobs\RemoveSeriesThumbnailPath;
-use App\Mail\SeriesCreated;
 use App\Models\Series;
-use App\Models\User;
-use DateTime;
-use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
@@ -39,7 +35,7 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $thumbnailPath = $request->hasFile('thumbnail') 
+        $thumbnailPath = $request->hasFile('thumbnail')
         ? $request->file('thumbnail')->store('series_thumbnail', 'public')
         : null;
         
