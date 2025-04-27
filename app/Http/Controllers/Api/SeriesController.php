@@ -8,6 +8,7 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Jobs\RemoveSeriesThumbnailPath;
 use App\Models\Series;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
@@ -15,9 +16,14 @@ class SeriesController extends Controller
     {
         
     }
-    public function index(): Collection
-    {
-        return Series::all();
+    public function index(Request $request)
+    {   
+        $query = Series::query();
+        if($request->has('name')) {
+            $query->where('name', $request->name);
+        }
+
+        return $query->paginate(5);
     }
 
     public function store(SeriesFormRequest $request)
