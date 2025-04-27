@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\SeriesRepository;
 use App\Http\Requests\SeriesFormRequest;
+use App\Jobs\RemoveSeriesThumbnailPath;
 use App\Mail\SeriesCreated;
 use App\Models\Series;
 use App\Models\User;
@@ -66,6 +67,7 @@ class SeriesController extends Controller
     public function destroy(Series $series)
     {
         $series->delete();
+        RemoveSeriesThumbnailPath::dispatch($series->thumbnail_path);
 
         return to_route('series.index')->with('message.success', "Série '{$series->name}' removida com sucesso!");
     }
