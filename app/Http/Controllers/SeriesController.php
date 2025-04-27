@@ -39,8 +39,14 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $thumbnailPath = $request->file('thumbnail')->store('series_thumbnail', 'public');
-        $request->thumbnailPath = $thumbnailPath;
+        $thumbnailPath = $request->hasFile('thumbnail') 
+        ? $request->file('thumbnail')->store('series_thumbnail', 'public')
+        : null;
+        
+        $request->merge([
+            'thumbnail' => $thumbnailPath
+        ]);
+
         $serie = $this->seriesRepository->add($request);
 
         \App\Events\SeriesCreated::dispatch(
@@ -67,8 +73,9 @@ class SeriesController extends Controller
     public function destroy(Series $series)
     {
         $series->delete();
-        RemoveSeriesThumbnailPath::dispatch($series->thumbnail_path);
-
+        if(isset($series->thumbnail_path)) {
+            RemoveSeriesThumbnailPath::dispatch($series->thumbnail_path);
+        }
         return to_route('series.index')->with('message.success', "Série '{$series->name}' removida com sucesso!");
     }
 }
